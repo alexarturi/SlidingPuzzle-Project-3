@@ -19,28 +19,23 @@ function generatePuzzleBoard() {
     table.rows[emptyCell.row].cells[emptyCell.col].textContent = '';
 }
 
-// Function to move a tile into the empty space
 function moveTile(row, col) {
     const rowDiff = Math.abs(row - emptyCell.row);
     const colDiff = Math.abs(col - emptyCell.col);
 
-    // Check if the clicked tile is adjacent to the empty space
     if ((rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1)) {
         const table = document.querySelector("#puzzle");
         const clickedCell = table.rows[row].cells[col];
         const emptyCellElement = table.rows[emptyCell.row].cells[emptyCell.col];
 
-        // Swap the tile and empty cell
         emptyCellElement.textContent = clickedCell.textContent;
         clickedCell.textContent = '';
         emptyCell.row = row;
         emptyCell.col = col;
 
-        // Update the move count
         updateMoveCount();
     }
 
-    // Check if the user has won (all tiles are in order)
     if (isPuzzleSolved()) {
         if(isImpressive(moveCount)){
             alert("Congratulations! You've solved the puzzle in very few moves!");
@@ -51,14 +46,13 @@ function moveTile(row, col) {
     }
 }
 
-// Function to update the move count
 let moveCount = 0;
 function updateMoveCount() {
     moveCount++;
     document.getElementById("output").textContent = `Moves: ${moveCount}`;
 }
 
-// Function to check if the puzzle is solved
+//win condition
 function isPuzzleSolved() {
     const table = document.getElementById("puzzle");
     let prevValue = 0;
@@ -79,28 +73,25 @@ function isPuzzleSolved() {
     return true;
 }
 
-// Event listener for the "Start" button
 document.getElementById("startButton").addEventListener("click", () => startCountingMoves());
 
-// Event listener for the "Reset" button
 document.getElementById("resetButton").addEventListener("click", () => resetGame());
 
-// Initialize the puzzle board
+// Init board
 generatePuzzleBoard();
 
-// Function to start counting moves
 function startCountingMoves() {
     moveCount = 0;
     document.getElementById("output").textContent = "Moves: 0";
 }
 
-// Function to reset the game
+// resets game
 function resetGame() {
     generatePuzzleBoard();
     stopCountingMoves();
 }
 
-// Function to stop counting moves
+//resets move count and sets move count to 0
 function stopCountingMoves() {
     moveCount = 0;
     document.getElementById("output").textContent = "Moves: 0";
