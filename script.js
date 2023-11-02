@@ -19,6 +19,25 @@ function generatePuzzleBoard() {
     table.rows[emptyCell.row].cells[emptyCell.col].textContent = '';
 }
 
+function generatePuzzleBoardForReset() {
+    const diff = { row: rows - 1, col: cols - 1 };
+    const table = document.getElementById("puzzle");
+    table.innerHTML = '';
+
+    for (let i = 0; i < rows; i++) {
+        const row = table.insertRow(i);
+        for (let j = 0; j < cols; j++) {
+            const cell = row.insertCell(j);
+            cell.textContent = i * cols + j + 1;
+            cell.addEventListener("click", () => moveTile(i, j));
+        }
+    }
+    emptyCell.row = 3;
+    emptyCell.col = 3;
+
+    table.rows[diff.row].cells[diff.col].textContent = '';
+}
+
 function moveTile(row, col) {
     const rowDiff = Math.abs(row - emptyCell.row);
     const colDiff = Math.abs(col - emptyCell.col);
@@ -37,12 +56,14 @@ function moveTile(row, col) {
     }
 
     if (isPuzzleSolved()) {
-        if(isImpressive(moveCount)){
-            alert("Congratulations! You've solved the puzzle in very few moves!");
-        } else {
-            alert("Congratulations! You've solved the puzzle.");
+        if (moveCount>1){
+            if(isImpressive(moveCount)){
+                    alert("Congratulations! You've solved the puzzle in very few moves!");
+                } else {
+                    alert("Congratulations! You've solved the puzzle.");
+                }
+                stopCountingMoves();
         }
-        stopCountingMoves();
     }
 }
 
@@ -87,7 +108,7 @@ function startCountingMoves() {
 
 // resets game
 function resetGame() {
-    generatePuzzleBoard();
+    generatePuzzleBoardForReset();
     stopCountingMoves();
 }
 
